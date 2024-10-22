@@ -13,8 +13,6 @@ public class MyStackInt {
         int currentMax = getCurrentMax();
         if (num >= currentMax) {
             maxArrayDeque.add(num);
-        } else {
-            maxArrayDeque.add(currentMax);
         }
     }
 

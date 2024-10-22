@@ -63,4 +63,5 @@ public class MyStackIntTest {
         }
         assertEquals(treeSet.last(), stack.getMaxElement());
     }
+
 }

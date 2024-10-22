@@ -2,6 +2,7 @@ package telran.interview;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InterviewTasks {
     /**
@@ -84,18 +85,14 @@ public class InterviewTasks {
 
         if (word.length() == anagram.length() && !word.equals(anagram)) {
             Map<Character, Integer> map = new HashMap<>();
-            char[] wordArray = word.toCharArray();
-            char[] anagramArray = anagram.toCharArray();
 
-            for (int i = 0; i < wordArray.length; i++) {
-                char charWord = wordArray[i];
-                int value = map.getOrDefault(charWord, 0) + 1;
-                putRemoveValue(charWord, value, map);
-
-                char charAnagram = anagramArray[i];
-                value = map.getOrDefault(charAnagram, 0) - 1;
-                putRemoveValue(charAnagram, value, map);
-            }
+            word.chars().mapToObj(c -> (char) c)
+                .forEach(c -> map.merge(c, 1, Integer::sum));
+            anagram.chars().mapToObj(c -> (char) c)
+                .forEach(c -> map.merge(c, -1, (oldValue, newValue) -> {
+                    int result = oldValue + newValue;
+                    return result == 0 ? null : result;
+                }));
 
             if (map.isEmpty()) {
                 res = true;
@@ -103,14 +100,6 @@ public class InterviewTasks {
         }
 
         return res;
-    }
-
-    private static void putRemoveValue(char simbol, int value, Map<Character, Integer> map) {
-        if (value == 0) {
-            map.remove(simbol);
-        } else {
-            map.put(simbol, value);            
-        }
     }
 
 }
